@@ -1,0 +1,40 @@
+#!/bin/bash
+# Post-receive hook for auto-deployment (async)
+
+REPO_PATH="/home/xiaobai/xiaobai-blog.git"
+DEPLOY_PATH="/home/xiaobai/xiaobai-blog-deploy"
+NGINX_ROOT="/home/xiaobai/xiaobai-blog/public"
+LOG_FILE="/tmp/blog-build-$(date +%s).log"
+
+echo "✓ Push received. Building in background..."
+
+# 后台执行部署
+nohup bash -c "
+set -e
+exec > '$LOG_FILE' 2>&1
+
+echo 'Starting build at '
+mkdir -p '$DEPLOY_PATH'
+
+# Read pushed branch from stdin
+while read oldref newref refname; do
+  branch=\$(basename \"\$refname\")
+  echo \"Checking out \$branch\"
+  git --work-tree='$DEPLOY_PATH' --git-dir='$REPO_PATH' checkout -f \"\$branch\"
+done
+
+cd '$DEPLOY_PATH'
+echo 'Checked out code'
+
+npm install --production
+echo 'Dependencies installed'
+
+npm run build
+echo 'Astro build complete'
+
+mkdir -p '$NGINX_ROOT'
+rsync -av --delete dist/ '$NGINX_ROOT/'
+echo 'Synced to Nginx root'
+" > /dev/null 2>&1 &
+
+exit 0
