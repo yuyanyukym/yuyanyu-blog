@@ -1,0 +1,15 @@
+[Unit]
+Description=Caddy Web Server
+After=network.target
+
+[Service]
+Type=notify
+ExecStart=/home/xiaobai/.local/bin/caddy run --config /home/xiaobai/xiaobai-blog/Caddyfile
+ExecReload=/home/xiaobai/.local/bin/caddy reload --config /home/xiaobai/xiaobai-blog/Caddyfile
+Restart=always
+RestartSec=5s
+Environment=HOME=/home/xiaobai
+TimeoutStopSec=5s
+
+[Install]
+WantedBy=default.target

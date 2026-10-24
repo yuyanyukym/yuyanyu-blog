@@ -1,0 +1,12 @@
+---
+import Base from '../layouts/Base.astro';
+import { PoemList } from '../components/PoemList';
+import { poems } from '../data/poems';
+---
+
+<Base title="诗集 | 小白的空间">
+  <h1 style="text-align: center; margin-bottom: 40px;">诗集</h1>
+  <div style="max-width: 800px; margin: 0 auto;">
+    <PoemList client:load poems={poems} />
+  </div>
+</Base>
