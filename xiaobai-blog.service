@@ -1,0 +1,13 @@
+[Unit]
+Description=Xiaobai Blog Static Server
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/xiaobai/xiaobai-blog/public
+ExecStart=/usr/bin/python3 -m http.server 8080 --directory /home/xiaobai/xiaobai-blog/public
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target
