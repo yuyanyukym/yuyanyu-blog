@@ -1,0 +1,21 @@
+{
+  "name": "xiaobai-blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "deploy": "npm run build && rsync -azP dist/ xiaobai@204.152.208.139:/home/xiaobai/xiaobai-blog/dist/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@astrojs/preact": "^6.1.1",
+    "astro": "^7.4.2",
+    "react": "^19.3.1"
+  }
+}

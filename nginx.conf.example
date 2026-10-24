@@ -1,0 +1,21 @@
+# Nginx 配置，部署到 VPS 的 /etc/nginx/sites-available/xiaobai-blog
+
+server {
+    listen 80;
+    server_name xiaobai.local localhost 204.152.208.139;
+
+    root /home/xiaobai/xiaobai-blog/dist;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+        expires 7d;
+        add_header Cache-Control "public, immutable";
+    }
+
+    access_log /var/log/nginx/xiaobai-blog-access.log;
+    error_log /var/log/nginx/xiaobai-blog-error.log;
+}

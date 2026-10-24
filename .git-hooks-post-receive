@@ -1,0 +1,10 @@
+#!/bin/bash
+# VPS 端 Git hooks: .git/hooks/post-receive
+# 推送后自动构建
+
+cd /home/xiaobai/xiaobai-blog
+git reset --hard HEAD
+npm install
+npm run build
+systemctl reload nginx
+echo "✓ Deployment complete"
