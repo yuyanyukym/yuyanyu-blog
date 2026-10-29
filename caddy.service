@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=notify
-ExecStart=/home/xiaobai/.local/bin/caddy run --config /home/xiaobai/xiaobai-blog/Caddyfile
+ExecStart=/home/xiaobai/.local/bin/caddy run --config /home/xiaobai/xiaobai-blog/caddy-config.json
 ExecReload=/home/xiaobai/.local/bin/caddy reload --config /home/xiaobai/xiaobai-blog/Caddyfile
 Restart=always
 RestartSec=5s
