@@ -2,11 +2,62 @@
 import Base from '../layouts/Base.astro';
 import { PoemList } from '../components/PoemList';
 import { poems } from '../data/poems';
+import { scraps } from '../data/poems';
 ---
 
-<Base title="诗集 | 小白的空间">
-  <h1 style="text-align: center; margin-bottom: 40px;">诗集</h1>
-  <div style="max-width: 800px; margin: 0 auto;">
-    <PoemList client:load poems={poems} />
-  </div>
+<Base title="碎碎念 & 诗歌 | 小白的空间">
+  <h1 style="text-align: center; margin-bottom: 10px;">碎碎念 & 诗歌</h1>
+  <p style="text-align: center; color: #666; margin-bottom: 40px;">
+    诗歌来自诗集；碎碎念来自收件箱与日记，已剔除目标任务，只保留片段与感想。
+  </p>
+
+  <section style="margin-bottom: 60px;">
+    <h2 style="border-bottom: 1px solid #eee; padding-bottom: 10px;">诗歌</h2>
+    <div style="max-width: 800px; margin: 0 auto;">
+      <PoemList client:load poems={poems} />
+    </div>
+  </section>
+
+  <section>
+    <h2 style="border-bottom: 1px solid #eee; padding-bottom: 10px;">碎碎念</h2>
+    <div style="max-width: 800px; margin: 0 auto;">
+      {scraps.map(scrap => (
+        <div
+          key={scrap.id}
+          style={{
+            background: '#fff',
+            padding: '20px',
+            borderRadius: '8px',
+            marginBottom: '16px',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            whiteSpace: 'pre-wrap',
+            lineHeight: '1.8',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'start',
+              marginBottom: '12px',
+              fontSize: '0.9em',
+              color: '#666',
+            }}
+          >
+            <span style={{ fontWeight: 'bold', color: '#333' }}>{scrap.date}</span>
+            <span
+              style={{
+                background: '#eee',
+                padding: '2px 8px',
+                borderRadius: '4px',
+              }}
+            >
+              {scrap.source}
+            </span>
+          </div>
+          <div style={{ color: '#444' }}>{scrap.content}</div>
+        </div>
+      ))}
+    </div>
+  </section>
 </Base>
