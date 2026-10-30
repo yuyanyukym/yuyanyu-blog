@@ -149,7 +149,7 @@ export const poems: Poem[] = [
     date: "2026-10-30",
     excerpt: "结论摆了千年",
     tags: [],
-    content: "结论摆了千年\n\n照样看也不看\n\n忍着愚蠢生活\n\n祖先尝下智慧的恶果\n\n怎么不吃聪明药？\n\n  \n\n所有人都有病\n\n所有人都要治\n\n可是学医学却\n\n从来没有听过\n\n病人及某某\n\n只知道把整个世界\n\n当成一颗肿瘤保留\n\n  \n\n所以所有人都只想听\n\n细胞破裂的声音\n\n直到我们的后代\n\n笑着跑进\n\n切尔诺贝利的森林\n\n这下聪明终于被治干净",
+    content: "结论摆了千年\n照样看也不看\n忍着愚蠢生活\n祖先尝下智慧的恶果\n怎么不吃聪明药？\n\n  \n\n所有人都有病\n所有人都要治\n可是学医学却\n从来没有听过\n病人及某某\n只知道把整个世界\n当成一颗肿瘤保留\n\n  \n\n所以所有人都只想听\n细胞破裂的声音\n直到我们的后代\n笑着跑进\n切尔诺贝利的森林\n这下聪明终于被治干净",
   },
   {
     id: "poem-大怪物",
@@ -307,11 +307,10 @@ export const poems: Poem[] = [
 
 export const scraps: Scrap[] = [
   {
-    id: "scrap-instabox",
-    date: "2026-10-24",
+    id: "scrap-illusion",
+    date: "2026-10-20",
     source: "日记",
-    content: "等了五天instabox终于给我回信了😭，我还以为我邮箱有什么问题是不是收不到别人回信啊看别人最多也就等了四天的！太好了这下又有好多机器可以玩了",
-  },
+    content: "又喂饱了想象\n头上的草\n还是被除草机除掉",
   {
     id: "scrap-hash",
     date: "2026-10-24",
@@ -322,19 +321,19 @@ export const scraps: Scrap[] = [
     id: "scrap-dream",
     date: "2026-10-24",
     source: "日记",
-    content: "刚刚午睡做了一个梦。梦见我母亲一屁股坐在了我床头的玩偶上。然后我瞬间应激暴怒，大骂并跟她打了起来。",
+    content: "刚刚做了一个梦。梦见我母亲一屁股坐坏了我床头的玩偶。然后我瞬间应激暴怒，回过神后玩偶和母亲全都不见了",
   },
   {
-    id: "scrap-pi",
+    id: "scrap-memory-dog",
     date: "2026-10-24",
     source: "日记",
-    content: "目前反复找Hermes确认了好几遍,打通内网最佳的设备选择确实就是树莓派,唉,但是树莓派四五百我就是感觉很贵啊",
+    content: "回忆就是狗",
   },
   {
-    id: "scrap-hermes",
+    id: "scrap-tramadol",
     date: "2026-10-25",
     source: "日记",
-    content: "Hermes,你昨天没有写信!哼,坏Hermes",
+    content: "曲马多可以让人体验到女性高潮吗?!",
   },
   {
     id: "scrap-tramadol",
@@ -352,7 +351,7 @@ export const scraps: Scrap[] = [
     id: "scrap-budget",
     date: "2026-10-01",
     source: "日记",
-    content: "预算只有6000，能拿到什么呢？",
+    content: "暂停了\n雨落下的轨迹\n暂时就\n把伞扔回打不开的抽屉",
   },
   {
     id: "scrap-dog",
@@ -421,16 +420,16 @@ export const scraps: Scrap[] = [
     content: "治疗空虚的药品说明书上没写舔自己",
   },
   {
-    id: "scrap-zlibrary",
-    date: "2026-10-08",
+    id: "scrap-trauma",
+    date: "2026-10-17",
     source: "收件箱",
-    content: "泵声里的诗在 zlibrary 里没有资源，然后安娜的档案（gl 后缀）现在搜索又无法验证一直转圈，暂时先放着吧",
+    content: "心理咨询应该要可以免费获得才对，因为我的心理创伤就是免费得到的。",
   },
   {
     id: "scrap-heart-lotus",
     date: "2026-10-08",
     source: "收件箱",
-    content: "心 <!-- 未开之莲蕊 -->",
+    content: "心是没有绽开的莲蕊",
   },
   {
     id: "scrap-pillow",
@@ -442,19 +441,19 @@ export const scraps: Scrap[] = [
     id: "scrap-parent",
     date: "2026-10-08",
     source: "收件箱",
-    content: "宁愿心理不健康也要身体健康，这就是中国的家长",
+    content: "宁愿心理不健康也要身体健康 / 这就是中国的家长",
   },
   {
-    id: "scrap-eras",
+    id: "scrap-pregabalin",
     date: "2026-10-08",
     source: "收件箱",
-    content: "传染病时代\n躯体病时代\n精神病时代",
+    content: "突然想到普瑞巴林的简称pr和蛋白质的简称是一样的……",
   },
   {
-    id: "scrap-layer",
-    date: "2026-10-28",
+    id: "scrap-pressure",
+    date: "2026-10-11",
     source: "收件箱",
-    content: "分层\n\n在上面的那被叫做我们\n在下面的被定义为无能\n一些设想夹在中间\n\n另一些奢想掉进了洞\n我没有回头\n最喜欢的衣服挂在了枝头\n\n曾经我们是彼此的朋友\n要连续到世界尽头\n再谈设想里\n没想好的星空\n\n现在你再也不会\n这样说和那样做\n一滩血迹\n下面的花鲜艳如红\n脸暂停了笑容\n\n上面的我只有丑陋\n很怀念丢下你的那个枝头\n很怀念拿走你存活\n的那次坠落\n要是我在\n\n我就不会哭",
+    content: "没有生存压力的知识体 吐出怎样的言语都像是罪过/n时间在流动吗？",
   },
   {
     id: "scrap-edge",
@@ -478,6 +477,6 @@ export const scraps: Scrap[] = [
     id: "scrap-osteomyelitis",
     date: "2026-10-26",
     source: "收件箱",
-    content: "化脓性骨髓炎",
+    content: "化脓性骨髓炎像是一只寄生多年的蜘蛛终于出巢",
   }
 ];
