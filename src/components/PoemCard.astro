@@ -1,0 +1,34 @@
+---
+import type { Poem } from '../data/poems';
+
+interface Props {
+  poem: Poem;
+}
+
+const { poem } = Astro.props;
+---
+
+<div
+  id={`poem-${encodeURIComponent(poem.id)}`}
+  style="background:#fff;padding:24px;border-radius:8px;box-shadow:0 2px 4px rgba(0,0,0,0.1)"
+>
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+    <h3 style="margin:0;font-size:1.3em">{poem.title}</h3>
+    <a href="#目录" style="font-size:0.8em;color:#666;text-decoration:none;white-space:nowrap">↑返回目录</a>
+  </div>
+  <p style="color:#999;font-size:0.9em;margin:4px 0 10px">{poem.date}</p>
+  {
+    poem.tags.length > 0 && (
+      <div style="margin-bottom:10px">
+        {poem.tags.map(tag => (
+          <span style="background:#eee;color:#555;padding:2px 8px;border-radius:4px;font-size:0.8em;margin-right:6px;display:inline-block">
+            #{tag}
+          </span>
+        ))}
+      </div>
+    )
+  }
+  <div style="white-space:pre-wrap;line-height:1.8;color:#444;font-family:Georgia,serif">
+    {poem.content}
+  </div>
+</div>

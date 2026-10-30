@@ -1,64 +1,75 @@
 ---
 import Base from '../layouts/Base.astro';
-import { poems } from '../data/poems';
-import { scraps } from '../data/poems';
-import { allImageries } from '../data/poems';
+import PoemCard from '../components/PoemCard.astro';
+import { poems, scraps, imageryGroups, allImageries } from '../data/poems';
 
-const poemsByImagery: Record<string, typeof poems> = {};
-for (const img of allImageries) {
-  poemsByImagery[img] = poems.filter(p => p.tags.includes(img));
-}
+const byImagery = new Map(allImageries.map(img => [img, poems.filter(p => p.tags.includes(img))]));
 const untaggedPoems = poems.filter(p => p.tags.length === 0);
+
+const chip = (bg: string, fg: string) =>
+  `padding:6px 14px;background:${bg};color:${fg};border-radius:20px;text-decoration:none;font-size:0.9em;white-space:nowrap`;
 ---
 
 <Base title="碎碎念 & 诗歌 | 小白的空间">
-  <h1 style={{ textAlign: 'center', marginBottom: '4px' }}>碎碎念 & 诗歌</h1>
-  <p style={{ textAlign: 'center', color: '#666', marginBottom: '24px' }}>
+  <h1 style="text-align:center;margin-bottom:4px">碎碎念 & 诗歌</h1>
+  <p style="text-align:center;color:#666;margin-bottom:24px">
     诗歌来自诗集；碎碎念来自收件箱与日记，已剔除目标任务，只保留片段与感想。
   </p>
 
-  <nav style={{ maxWidth: '800px', margin: '0 auto 32px auto', display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'center' }}>
-    <a href="/" style={{ padding: '6px 14px', background: '#333', color: '#fff', borderRadius: '20px', textDecoration: 'none', fontSize: '0.9em', fontWeight: 'bold' }}>首页</a>
-    <a href="#全部" style={{ padding: '6px 14px', background: '#555', color: '#fff', borderRadius: '20px', textDecoration: 'none', fontSize: '0.9em' }}>全部</a>
-    {allImageries.map(img => (
-      <a href={`#${encodeURIComponent(img)}`} style={{ padding: '6px 14px', background: '#e8e8e8', color: '#333', borderRadius: '20px', textDecoration: 'none', fontSize: '0.9em' }}>#{img}</a>
+  <nav style="max-width:800px;margin:0 auto 32px auto;display:flex;flex-direction:column;gap:8px">
+    <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center">
+      <a href="/" style={`${chip('#333', '#fff')};font-weight:bold`}>首页</a>
+      <a href="#全部" style={chip('#555', '#fff')}>全部</a>
+      <a href="#碎碎念" style={chip('#d8f3dc', '#1d5b3a')}>碎碎念</a>
+    </div>
+    {imageryGroups.map(group => (
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center">
+        <span style="font-size:0.75em;color:#999;letter-spacing:0.05em">{group.family}</span>
+        {group.imageries.map(img => (
+          <a href={`#${encodeURIComponent(img)}`} style={chip('#e8e8e8', '#333')}>#{img}</a>
+        ))}
+      </div>
     ))}
-    <a href="#碎碎念" style={{ padding: '6px 14px', background: '#d8f3dc', color: '#1d5b3a', borderRadius: '20px', textDecoration: 'none', fontSize: '0.9em' }}>碎碎念</a>
   </nav>
 
-  <section id="目录" style={{ maxWidth: '800px', margin: '0 auto 48px auto', background: '#fafafa', padding: '24px', borderRadius: '8px' }}>
-    <h2 style={{ borderBottom: '2px solid #333', paddingBottom: '8px', marginBottom: '16px' }}>完整目录</h2>
-    <p style={{ color: '#666', fontSize: '0.9em', marginBottom: '16px' }}>点击诗歌标题可直接跳转到对应内容</p>
+  <section id="目录" style="max-width:800px;margin:0 auto 48px auto;background:#fafafa;padding:24px;border-radius:8px">
+    <h2 style="border-bottom:2px solid #333;padding-bottom:8px;margin-bottom:16px">完整目录</h2>
+    <p style="color:#666;font-size:0.9em;margin-bottom:20px">点击诗歌标题可直接跳转到对应内容</p>
 
-    {allImageries.map(img => {
-      const group = poemsByImagery[img];
-      if (group.length === 0) return null;
-      return (
-        <div key={img} style={{ marginBottom: '20px' }}>
-          <h3 style={{ margin: '0 0 10px 0', fontSize: '1.1em', color: '#333', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            #{img}
-            <a href="#目录" style={{ fontSize: '0.8em', color: '#666', textDecoration: 'none', marginLeft: '10px' }}>↑返回目录</a>
-          </h3>
-          <ul style={{ margin: 0, paddingLeft: 16, listStyle: 'none' }}>
-            {group.map(poem => (
-              <li key={poem.id} style={{ marginBottom: '6px', fontSize: '0.95em' }}>
-                <a href={`#poem-${encodeURIComponent(poem.id)}`} style={{ color: '#0066cc', textDecoration: 'none' }}>{poem.title}</a>
-                <span style={{ color: '#999', marginLeft: '8px', fontSize: '0.85em' }}>{poem.date}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      );
-    })}
+    {imageryGroups.map(group => (
+      <div style="margin-bottom:26px">
+        <div style="font-size:0.8em;color:#999;letter-spacing:0.08em;margin-bottom:10px">{group.family}</div>
+        {group.imageries.map(img => {
+          const list = byImagery.get(img) ?? [];
+          if (list.length === 0) return null;
+          return (
+            <div style="margin-bottom:14px">
+              <div style="display:flex;align-items:baseline;gap:8px">
+                <span style="font-size:1.05em;font-weight:bold;color:#333">#{img}</span>
+                <span style="font-size:0.8em;color:#bbb">{list.length} 首</span>
+              </div>
+              <ul style="margin:6px 0 0 0;padding-left:16px;list-style:none">
+                {list.map(poem => (
+                  <li style="margin-bottom:4px;font-size:0.95em">
+                    <a href={`#poem-${encodeURIComponent(poem.id)}`} style="color:#0066cc;text-decoration:none">{poem.title}</a>
+                    <span style="color:#999;margin-left:8px;font-size:0.85em">{poem.date}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+    ))}
 
     {untaggedPoems.length > 0 && (
-      <div style={{ marginBottom: '20px' }}>
-        <h3 style={{ margin: '0 0 10px 0', fontSize: '1.1em', color: '#333' }}>未分类</h3>
-        <ul style={{ margin: 0, paddingLeft: 16, listStyle: 'none' }}>
+      <div>
+        <span style="font-size:1.05em;font-weight:bold;color:#333">未分类</span>
+        <ul style="margin:6px 0 0 0;padding-left:16px;list-style:none">
           {untaggedPoems.map(poem => (
-            <li key={poem.id} style={{ marginBottom: '6px', fontSize: '0.95em' }}>
-              <a href={`#poem-${encodeURIComponent(poem.id)}`} style={{ color: '#0066cc', textDecoration: 'none' }}>{poem.title}</a>
-              <span style={{ color: '#999', marginLeft: '8px', fontSize: '0.85em' }}>{poem.date}</span>
+            <li style="margin-bottom:4px;font-size:0.95em">
+              <a href={`#poem-${encodeURIComponent(poem.id)}`} style="color:#0066cc;text-decoration:none">{poem.title}</a>
+              <span style="color:#999;margin-left:8px;font-size:0.85em">{poem.date}</span>
             </li>
           ))}
         </ul>
@@ -66,98 +77,65 @@ const untaggedPoems = poems.filter(p => p.tags.length === 0);
     )}
   </section>
 
-  <section id="全部" style={{ maxWidth: '800px', margin: '0 auto 48px auto' }}>
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-      <h2 style={{ borderBottom: '2px solid #333', paddingBottom: '8px', margin: 0 }}>全部诗歌</h2>
-      <a href="#目录" style={{ fontSize: '0.8em', color: '#666', textDecoration: 'none', marginLeft: '10px' }}>↑返回目录</a>
+  <section id="全部" style="max-width:800px;margin:0 auto 48px auto">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <h2 style="border-bottom:2px solid #333;padding-bottom:8px;margin:0">全部诗歌</h2>
+      <a href="#目录" style="font-size:0.8em;color:#666;text-decoration:none">↑返回目录</a>
     </div>
-    <div style={{ display: 'grid', gap: '24px' }}>
-      {poems.map(poem => (
-        <div id={`poem-${encodeURIComponent(poem.id)}`} style={{ background: '#fff', padding: '24px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-          <div style={{ marginBottom: '12px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '8px' }}>
-              <h3 style={{ margin: 0, fontSize: '1.3em' }}>{poem.title}</h3>
-              <a href="#目录" style={{ fontSize: '0.8em', color: '#666', textDecoration: 'none', marginLeft: '10px' }}>↑返回目录</a>
-            </div>
-            <p style={{ color: '#999', fontSize: '0.9em', margin: '0 0 10px 0' }}>{poem.date}</p>
-            {poem.tags.length > 0 && (
-              <div style={{ marginBottom: '10px' }}>
-                {poem.tags.map(tag => (
-                  <span key={tag} style={{ background: '#eee', color: '#555', padding: '2px 8px', borderRadius: '4px', fontSize: '0.8em', marginRight: '6px', marginBottom: '4px', display: 'inline-block' }}>#{tag}</span>
-                ))}
-              </div>
-            )}
-          </div>
-          <div style={{ whiteSpace: 'pre-wrap', lineHeight: '1.8', color: '#444', fontFamily: 'Georgia, serif' }}>{poem.content}</div>
-        </div>
-      ))}
+    <div style="display:grid;gap:24px">
+      {poems.map(poem => <PoemCard poem={poem} />)}
     </div>
   </section>
 
-  {allImageries.map(img => {
-    const group = poemsByImagery[img];
-    if (group.length === 0) return null;
-    return (
-      <section key={img} id={encodeURIComponent(img)} style={{ maxWidth: '800px', margin: '0 auto 48px auto' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-          <h2 style={{ borderBottom: '2px solid #666', paddingBottom: '8px', margin: 0 }}>#{img}</h2>
-          <a href="#目录" style={{ fontSize: '0.8em', color: '#666', textDecoration: 'none', marginLeft: '10px' }}>↑返回目录</a>
-        </div>
-        <div style={{ display: 'grid', gap: '24px' }}>
-          {group.map(poem => (
-            <div id={`poem-${encodeURIComponent(poem.id)}`} style={{ background: '#fff', padding: '24px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-              <div style={{ marginBottom: '12px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '8px' }}>
-                  <h3 style={{ margin: 0, fontSize: '1.3em' }}>{poem.title}</h3>
-                  <a href="#目录" style={{ fontSize: '0.8em', color: '#666', textDecoration: 'none', marginLeft: '10px' }}>↑返回目录</a>
-                </div>
-                <p style={{ color: '#999', fontSize: '0.9em', margin: '0 0 10px 0' }}>{poem.date}</p>
+  {imageryGroups.map(group => (
+    <>
+      {group.imageries.map(img => {
+        const list = byImagery.get(img) ?? [];
+        if (list.length === 0) return null;
+        return (
+          <section id={encodeURIComponent(img)} style="max-width:800px;margin:0 auto 48px auto">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+              <div>
+                <div style="font-size:0.75em;color:#999;letter-spacing:0.08em">{group.family}</div>
+                <h2 style="border-bottom:2px solid #666;padding-bottom:8px;margin:0">#{img}</h2>
               </div>
-              <div style={{ whiteSpace: 'pre-wrap', lineHeight: '1.8', color: '#444', fontFamily: 'Georgia, serif' }}>{poem.content}</div>
+              <a href="#目录" style="font-size:0.8em;color:#666;text-decoration:none">↑返回目录</a>
             </div>
-          ))}
-        </div>
-      </section>
-    );
-  })}
+            <div style="display:grid;gap:24px">
+              {list.map(poem => <PoemCard poem={poem} />)}
+            </div>
+          </section>
+        );
+      })}
+    </>
+  ))}
 
   {untaggedPoems.length > 0 && (
-    <section id="未分类" style={{ maxWidth: '800px', margin: '0 auto 48px auto' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-        <h2 style={{ borderBottom: '2px solid #999', paddingBottom: '8px', margin: 0 }}>未分类诗歌</h2>
-        <a href="#目录" style={{ fontSize: '0.8em', color: '#666', textDecoration: 'none', marginLeft: '10px' }}>↑返回目录</a>
+    <section id="未分类" style="max-width:800px;margin:0 auto 48px auto">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <h2 style="border-bottom:2px solid #999;padding-bottom:8px;margin:0">未分类诗歌</h2>
+        <a href="#目录" style="font-size:0.8em;color:#666;text-decoration:none">↑返回目录</a>
       </div>
-      <div style={{ display: 'grid', gap: '24px' }}>
-        {untaggedPoems.map(poem => (
-          <div id={`poem-${encodeURIComponent(poem.id)}`} style={{ background: '#fff', padding: '24px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-            <div style={{ marginBottom: '12px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '8px' }}>
-                <h3 style={{ margin: 0, fontSize: '1.3em' }}>{poem.title}</h3>
-                <a href="#目录" style={{ fontSize: '0.8em', color: '#666', textDecoration: 'none', marginLeft: '10px' }}>↑返回目录</a>
-              </div>
-              <p style={{ color: '#999', fontSize: '0.9em', margin: '0 0 10px 0' }}>{poem.date}</p>
-            </div>
-            <div style={{ whiteSpace: 'pre-wrap', lineHeight: '1.8', color: '#444', fontFamily: 'Georgia, serif' }}>{poem.content}</div>
-          </div>
-        ))}
+      <div style="display:grid;gap:24px">
+        {untaggedPoems.map(poem => <PoemCard poem={poem} />)}
       </div>
     </section>
   )}
 
-  <section id="碎碎念" style={{ maxWidth: '800px', margin: '0 auto 48px auto' }}>
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-      <h2 style={{ borderBottom: '2px solid #1d5b3a', paddingBottom: '8px', margin: 0 }}>碎碎念</h2>
-      <a href="#目录" style={{ fontSize: '0.8em', color: '#666', textDecoration: 'none', marginLeft: '10px' }}>↑返回目录</a>
+  <section id="碎碎念" style="max-width:800px;margin:0 auto 48px auto">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <h2 style="border-bottom:2px solid #1d5b3a;padding-bottom:8px;margin:0">碎碎念</h2>
+      <a href="#目录" style="font-size:0.8em;color:#666;text-decoration:none">↑返回目录</a>
     </div>
-    <p style={{ color: '#666', fontSize: '0.9em', marginBottom: '20px' }}>来自收件箱与日记的片段，已剔除目标任务。</p>
-    <div style={{ display: 'grid', gap: '16px' }}>
+    <p style="color:#666;font-size:0.9em;margin-bottom:20px">来自收件箱与日记的片段，已剔除目标任务。</p>
+    <div style="display:grid;gap:16px">
       {scraps.map(scrap => (
-        <div style={{ background: '#fff', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', whiteSpace: 'pre-wrap', lineHeight: '1.8' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '12px', fontSize: '0.9em', color: '#666' }}>
-            <span style={{ fontWeight: 'bold', color: '#333' }}>{scrap.date}</span>
-            <span style={{ background: '#d8f3dc', color: '#1d5b3a', padding: '2px 8px', borderRadius: '4px' }}>{scrap.source}</span>
+        <div style="background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 4px rgba(0,0,0,0.1)">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;font-size:0.9em;color:#666">
+            <span style="font-weight:bold;color:#333">{scrap.date}</span>
+            <span style="background:#d8f3dc;color:#1d5b3a;padding:2px 8px;border-radius:4px">{scrap.source}</span>
           </div>
-          <div style={{ color: '#444' }}>{scrap.content}</div>
+          <div style="white-space:pre-wrap;line-height:1.8;color:#444">{scrap.content}</div>
         </div>
       ))}
     </div>
