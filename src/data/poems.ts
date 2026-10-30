@@ -337,10 +337,10 @@ export const poems: Poem[] = [
 
 export const scraps: Scrap[] = [
   {
-    id: "scrap-instabox",
+    id: "scrap-umbrella",
     date: "2026-10-24",
     source: "日记",
-    content: "等了五天instabox终于给我回信了😭，我还以为我邮箱有什么问题是不是收不到别人回信啊看别人最多也就等了四天的！太好了这下又有好多机器可以玩了",
+    content: "暂停了/雨落下的轨迹/暂时就/把伞扔回打不开的抽屉",
   },
   {
     id: "scrap-hash",
@@ -352,7 +352,7 @@ export const scraps: Scrap[] = [
     id: "scrap-dream",
     date: "2026-10-24",
     source: "日记",
-    content: "刚刚午睡做了一个梦。梦见我母亲一屁股坐在了我床头的玩偶上。然后我瞬间应激暴怒，大骂并跟她打了起来。",
+    content: "刚刚做了一个梦。梦见我母亲一屁股坐在了我床头的玩偶上。然后我瞬间应激暴怒，回过神玩偶和母亲都不见了。",
   },
   {
     id: "scrap-pi",
@@ -361,10 +361,11 @@ export const scraps: Scrap[] = [
     content: "目前反复找Hermes确认了好几遍,打通内网最佳的设备选择确实就是树莓派,唉,但是树莓派四五百我就是感觉很贵啊",
   },
   {
-    id: "scrap-hermes",
-    date: "2026-10-25",
+    id: "scrap-human",
+    date: "2026-10-24",
     source: "日记",
-    content: "Hermes,你昨天没有写信!哼,坏Hermes",
+    content: "人类不应该先是人类再有性别吗，我一直不明白。
+",
   },
   {
     id: "scrap-tramadol",
