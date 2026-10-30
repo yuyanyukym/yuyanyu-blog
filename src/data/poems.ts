@@ -311,6 +311,7 @@ export const scraps: Scrap[] = [
     date: "2026-10-20",
     source: "日记",
     content: "又喂饱了想象\n头上的草\n还是被除草机除掉",
+  },
   {
     id: "scrap-hash",
     date: "2026-10-24",
