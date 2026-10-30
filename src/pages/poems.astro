@@ -80,7 +80,7 @@ const chip = (bg: string, fg: string) =>
   <section id="全部" style="max-width:800px;margin:0 auto 48px auto">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
       <h2 style="border-bottom:2px solid #333;padding-bottom:8px;margin:0">全部诗歌</h2>
-      <a href="#目录" style="font-size:0.8em;color:#666;text-decoration:none">↑返回目录</a>
+      
     </div>
     <div style="display:grid;gap:24px">
       {poems.map(poem => <PoemCard poem={poem} />)}
@@ -99,7 +99,7 @@ const chip = (bg: string, fg: string) =>
                 <div style="font-size:0.75em;color:#999;letter-spacing:0.08em">{group.family}</div>
                 <h2 style="border-bottom:2px solid #666;padding-bottom:8px;margin:0">#{img}</h2>
               </div>
-              <a href="#目录" style="font-size:0.8em;color:#666;text-decoration:none">↑返回目录</a>
+              
             </div>
             <div style="display:grid;gap:24px">
               {list.map(poem => <PoemCard poem={poem} />)}
@@ -114,7 +114,7 @@ const chip = (bg: string, fg: string) =>
     <section id="未分类" style="max-width:800px;margin:0 auto 48px auto">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
         <h2 style="border-bottom:2px solid #999;padding-bottom:8px;margin:0">未分类诗歌</h2>
-        <a href="#目录" style="font-size:0.8em;color:#666;text-decoration:none">↑返回目录</a>
+        
       </div>
       <div style="display:grid;gap:24px">
         {untaggedPoems.map(poem => <PoemCard poem={poem} />)}
@@ -125,7 +125,7 @@ const chip = (bg: string, fg: string) =>
   <section id="碎碎念" style="max-width:800px;margin:0 auto 48px auto">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
       <h2 style="border-bottom:2px solid #1d5b3a;padding-bottom:8px;margin:0">碎碎念</h2>
-      <a href="#目录" style="font-size:0.8em;color:#666;text-decoration:none">↑返回目录</a>
+      
     </div>
     <p style="color:#666;font-size:0.9em;margin-bottom:20px">来自收件箱与日记的片段，已剔除目标任务。</p>
     <div style="display:grid;gap:16px">
@@ -140,4 +140,33 @@ const chip = (bg: string, fg: string) =>
       ))}
     </div>
   </section>
+
+  <a
+    href="#目录"
+    id="to-toc"
+    aria-label="返回目录"
+    style="position:fixed;right:20px;bottom:20px;z-index:50;display:inline-flex;align-items:center;gap:4px;padding:10px 16px;background:#333;color:#fff;border-radius:999px;font-size:0.85em;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,0.25);opacity:0;pointer-events:none;transition:opacity 0.25s ease,background 0.2s ease"
+  >
+    ↑ 目录
+  </a>
+
+  <script is:inline>
+    const toToc = document.getElementById('to-toc');
+    const toc = document.getElementById('目录');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const sync = () => {
+      const show = window.scrollY > 400;
+      toToc.style.opacity = show ? '1' : '0';
+      toToc.style.pointerEvents = show ? 'auto' : 'none';
+    };
+    window.addEventListener('scroll', sync, { passive: true });
+    toToc.addEventListener('mouseenter', () => { toToc.style.background = '#000'; });
+    toToc.addEventListener('mouseleave', () => { toToc.style.background = '#333'; });
+    toToc.addEventListener('click', event => {
+      event.preventDefault();
+      toc.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      history.replaceState(null, '', '#目录');
+    });
+    sync();
+  </script>
 </Base>
