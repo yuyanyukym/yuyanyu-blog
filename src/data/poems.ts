@@ -476,10 +476,11 @@ export const scraps: Scrap[] = [
     content: "宁愿心理不健康也要身体健康，这就是中国的家长",
   },
   {
-    id: "scrap-eras",
+    id: "scrap-dream",
     date: "2026-10-08",
     source: "收件箱",
-    content: "传染病时代\n躯体病时代\n精神病时代",
+    content: "梦里有人给我转了520，我看到那个¥520真的很开心，然后醒来后把每个聊天记录都看了一遍，看了一遍之后我又看了一遍，因为我有adhb，我怕我注意力不集中导致它逃走了，然后我才突然想起来好像所有的爱全都放进梦里面了
+",
   },
   {
     id: "scrap-layer",
@@ -509,6 +510,6 @@ export const scraps: Scrap[] = [
     id: "scrap-osteomyelitis",
     date: "2026-10-26",
     source: "收件箱",
-    content: "化脓性骨髓炎",
+    content: "化脓性骨髓炎是蜘蛛",
   }
 ];
